@@ -16,21 +16,25 @@
 
 package com.example.android.touroflondon;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import com.example.android.touroflondon.data.TourDbHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import com.google.android.gms.maps.GoogleMap;
 
 /**
  * The main activity launched on startup.
@@ -51,6 +55,8 @@ public class MainActivity extends Activity implements PoiListFragment.OnPoiSelec
     // The POI menu item for the phone layout
     private MenuItem mPoiMenuItem = null;
 
+    private GoogleMap googleMap;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +108,22 @@ public class MainActivity extends Activity implements PoiListFragment.OnPoiSelec
             ft.commit();
 
         } else {
+        	
+        	// Getting reference to the SupportMapFragment of activity_main.xml
+        	TourMapFragment fm = (TourMapFragment) getFragmentManager().findFragmentById(R.id.fragment_map);
+ 
+            // Getting GoogleMap object from the fragment
+            googleMap = fm.getMap();
+ 
+            // Enabling MyLocation Layer of Google Map
+            googleMap.setMyLocationEnabled(true);
+ 
+            // Getting LocationManager object from System Service LOCATION_SERVICE
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+ 
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 0, mMapFragment);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 20000, 0, mMapFragment);
+//            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             // Make sure active fragments are shown when returning from Play Services dialog interaction
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -109,8 +131,11 @@ public class MainActivity extends Activity implements PoiListFragment.OnPoiSelec
             if (mPoiListFragment != null) {
                 ft.show(mPoiListFragment);
             }
-            ft.commit();
+            ft.commit(); 
+
         }
+        
+        
     }
 
     /**
