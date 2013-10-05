@@ -126,6 +126,9 @@ public class PoiListFragment extends ListFragment implements LoaderManager.Loade
         Cursor c = (Cursor) mAdapter.getItem(position);
         String title = c.getString(c.getColumnIndex(projection[1]));
         mCallback.onPoiSelected(title);
+       
+
+        new CouponDetailDialog(title).show(getFragmentManager(),null);
     }
 
     @Override

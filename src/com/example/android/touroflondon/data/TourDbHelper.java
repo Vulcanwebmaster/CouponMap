@@ -25,6 +25,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.android.touroflondon.Coupon;
+import com.example.android.touroflondon.DataStore;
+import com.example.android.touroflondon.PointOfInterest.Type;
+
 /**
  * A database helper for tour data.
  * This class encapsulates access to an underlying SQLite database.
@@ -136,12 +140,17 @@ public class TourDbHelper extends SQLiteOpenHelper {
         db.beginTransaction();
 
         // Loop over each point of interest in array
-        for (int i = 0; i < data.length(); i++) {
-            JSONObject poi = data.getJSONObject(i);
-
+        for (int i = 0; i < DataStore.getAllCoupons().size(); i++) {
+            Coupon coupon = DataStore.getAllCoupons().get(i);
             //Extract POI properties
-            final String title = poi.getString("title");
-            final String type = poi.getString("type");
+            final String storeName = coupon.getStoreName();
+            final String details = coupon.getDetails();
+            
+
+            final Double lat = coupon.getLatitude();
+            final Double lng = coupon.getLongitude();
+           /* 
+           /final String type = poi.getString("type");
             final String description = poi.getString("description");
             final String pictureUrl = poi.getString("pictureUrl");
             final String pictureAttr = poi.getString("pictureAttr");
@@ -150,16 +159,14 @@ public class TourDbHelper extends SQLiteOpenHelper {
             JSONObject location = poi.getJSONObject("location");
             final double lat = location.getDouble("lat");
             final double lng = location.getDouble("lng");
-
+            */
             // Create content values object for insert
             ContentValues cv = new ContentValues();
-            cv.put(TourContract.PoiEntry.COLUMN_NAME_TITLE, title);
-            cv.put(TourContract.PoiEntry.COLUMN_NAME_TYPE, type);
-            cv.put(TourContract.PoiEntry.COLUMN_NAME_DESCRIPTION, description);
-            cv.put(TourContract.PoiEntry.COLUMN_NAME_PICTURE_URL, pictureUrl);
+            cv.put(TourContract.PoiEntry.COLUMN_NAME_TITLE, storeName);
+            cv.put(TourContract.PoiEntry.COLUMN_NAME_TYPE, "LANDMARK");
+            cv.put(TourContract.PoiEntry.COLUMN_NAME_DESCRIPTION, details);
             cv.put(TourContract.PoiEntry.COLUMN_NAME_LOCATION_LAT, lat);
             cv.put(TourContract.PoiEntry.COLUMN_NAME_LOCATION_LNG, lng);
-            cv.put(TourContract.PoiEntry.COLUMN_NAME_PICTURE_ATTR, pictureAttr);
 
             // Insert data
             db.insert(TourContract.PoiEntry.TABLE_NAME, null, cv);

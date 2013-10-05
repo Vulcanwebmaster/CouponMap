@@ -50,7 +50,7 @@ public class TourMapFragment extends MapFragment
     private Bundle mSavedInstanceState;
 
     /** Starting position for the camera. */
-    public static final LatLng LONDON = new LatLng(51.5, -0.12);
+    public static final LatLng LONDON = new LatLng(51.0, -0.12);
 
     /** A map from the title of the place to the PointOfInterest object containing more details about it. */
     private final Map<String, PointOfInterest> mPoiData = new HashMap<String, PointOfInterest>();
@@ -169,9 +169,15 @@ public class TourMapFragment extends MapFragment
     @Override
     public void onInfoWindowClick(Marker marker) {
         // Do a web search for the title of the POI.
+    	
+    	// TODO new coupon details
+    	/*
         Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
         intent.putExtra(SearchManager.QUERY, marker.getTitle());
         startActivity(intent);
+        */
+
+        new CouponDetailDialog(marker.getTitle()).show(getFragmentManager(),null);
     }
 
     /**

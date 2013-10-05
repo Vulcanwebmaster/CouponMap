@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string name="app_name">Tour of London</string>
+    <string name="app_name">Coupon Map</string>
     <string name="menu_poi_home_action">Select POI</string>
 
     <string name="menu_poi">Toggle list of Points of Interest</string>

@@ -94,7 +94,7 @@ public class MapLoaderCallbacks implements LoaderManager.LoaderCallbacks<Cursor>
             // Extract fields from the cursor and construct the POI object.
             String title = cursor.getString(PoiQuery.POI_TITLE);
             String description = cursor.getString(PoiQuery.POI_DESCRIPTION);
-            PointOfInterest.Type type = PointOfInterest.Type.valueOf(cursor.getString(PoiQuery.POI_TYPE));
+            PointOfInterest.Type type = PointOfInterest.Type.LANDMARK;
             LatLng location = new LatLng(cursor.getDouble(PoiQuery.POI_LOCATION_LAT),
                     cursor.getDouble(PoiQuery.POI_LOCATION_LNG));
             String pictureAttr = cursor.getString(PoiQuery.POI_PICTURE_ATTR);
