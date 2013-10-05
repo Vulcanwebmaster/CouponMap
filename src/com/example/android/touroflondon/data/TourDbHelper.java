@@ -144,7 +144,8 @@ public class TourDbHelper extends SQLiteOpenHelper {
             Coupon coupon = DataStore.getAllCoupons().get(i);
             //Extract POI properties
             final String storeName = coupon.getStoreName();
-            final String details = coupon.getDetails();
+            String details = coupon.getTitle();
+            details = details.replace("<h1>", "").replace("</h1>", "");
             
 
             final Double lat = coupon.getLatitude();
